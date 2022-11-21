@@ -17,8 +17,22 @@ Here I'm listing all the concepts you must know to Ace your React Interviews.
 - [Functional Vs. Class Components](#differentiate-between-functional-and-class-components)
 - [What is State?](#what-is-state)
 - [What are Props?](#what-are-props)
-- [What is Prop drilling?](#what-is-prop-drilling)
+- [Prop drilling?](#what-is-prop-drilling)
+- [Lifecycle Methods](#what-are-lifecycle-methods)
+- [React Router](#what-is-react-router)
+- [Higher Order Components](#what-are-higher-order-components)
+- [React Hooks](#what-are-react-hooks)
+- [How to prevent re-renders?](#how-to-prevent-re-renders)
+- [Different ways to style a React component?](#what-are-the-different-ways-to-style-a-react-component)
+- [Techniques to optimize React app performance?](#what-are-the-techniques-to-optimize-react-app-performance)
+- [How to pass data between React components?](#how-to-pass-data-between-react-components)
+- [Conditional rendering](#what-is-conditional-rendering)
+- [Redux](#what-is-redux)
+- [Controlled Vs. Uncontrolled components](#what-are-controlled-and-uncontrolled-components)
+- [Pure Components](#what-are-pure-components)
+- [Strict Mode](#what-is-strict-mode)
 
+<br>
 
 ### What is JSX?
 
@@ -114,6 +128,224 @@ function handleClick(){
 - so we pass props from a source component and keep passing the prop to the next component in the hierarchy till we reach the deeply nested component.
 - **disadvantage:** components that should otherwise be not aware of the data have access to the data.
 
+### What are Lifecycle Methods?
+- every React Component has a lifecycle of its own
+- it's a series of methods that are invoked in different stages of the component’s existence
+- 4 Stages of a Component's Lifecycle are:
 
+**Initialization**
+- stage where the component is constructed with the given Props and default state
+- This is done in the constructor of a Component Class
+
+**Mounting**
+- when an instance of a component is being created & inserted into the DOM
+
+**Updating**
+
+- when a component is being re-rendered as a result of changes to either of its props or state
+- component is updated and the application is repainted
+
+**Unmounting**
+
+- when a component is removed from the DOM
+
+### What is React Router?
+- Routing is a process in which a user is directed to different pages based on their action or request
+- React router is a standard library used in React applications to handle routing and allow navigation between views of various components
+
+**Main Component of React Router**
+
+- **BrowserRouter:** It’s a router implementation **to keep your UI in sync with the URL**. It is the **parent component** that is used to store all of the other components.
+- **Routes:** chosen based on the best match instead of being traversed in order.
+- **Route:** conditionally shown component that **renders some UI when its path matches the current URL.**
+- **Link:** used to create links to different routes and implement navigation around the application. It works like `<a>`
+
+### What are Higher Order Components?
+- function that takes a component as an argument and returns a new component
+```jsx
+const NewComponent = higherOrderComponent(orginalComponent)
+```
+- for reusing component
+- to share common functionality between the components
+- created an arrow function `UpdatedComponent` which takes `OriginalComponent` as an argument & returns a `NewComponent`
+```jsx
+import React from "react";
+
+const UpdatedComponent = (OriginalComponent) => {
+  class NewComponent extends React.Component {
+    render() {
+      return <OriginalComponent />;
+    }
+  }
+  return NewComponent;
+};
+```
+
+### What are React Hooks?
+- functions that let us “hook into” React state and lifecycle features from a functional component
+- **useState** - used to manage the state in your component. Returns a stateful value and an updater function to update it.
+- **useEffect** - to perform **side effects** like → API calls, data fetching, direct DOM updates, timers like setTimeout()
+- **useContext** - used for creating common data that is to be accessed by the components hierarchy without having to pass the props down to each level
+- **useReducer** - useState alternative to help with complex state management
+- **useRef** - permit creating a reference to the DOM element directly within the functional component
+- **useMemo** - It returns a memoized value that helps in performance optimisations
+- **useCallback** - It returns a memorized version of a callback to help a child component not re-render unnecessarily
+
+
+### How to prevent re-renders?
+**Reason for re-renders in React:**
+
+- occurs when props or the state of the component has been changed.
+- Re-rendering components that are not updated, affects the performance of an application.
+        
+**Use React.memo()** to prevent re-rendering on React function components.
+
+### What are the different ways to style a React component?
+1. **Inline Styling:** make sure the value of style is a JavaScript object
+```js
+<h3 style={{ color: "Yellow" }}>This is a heading</h3>
+```
+2. **JavaScript object:** create a separate JavaScript object and set the desired style properties, use this object as the value of the inline style attribute
+```js
+class RandomComponent extends React.Component {
+
+ headingStyles = {
+   color: "blue",
+   fontSize: "48px"
+ };
+
+ render() {
+   return (
+     <div>
+       <h3 style={this.headingStyles}>This is a heading</h3>
+     </div>
+   );
+ }
+}
+```
+3. **CSS Stylesheet:** create a separate CSS file, write all the styles for the component inside it, import it inside the component file
+```js
+import './RandomComponent.css';
+
+class RandomComponent extends React.Component {
+ render() {
+   return (
+     <div>
+       <h3 className="heading">This is a heading</h3>
+     </div>
+   );
+ }
+}
+```
+4. **CSS Modules:** create a file with “.module.css”‘ extension, styles.module.css
+```js
+.paragraph{
+ color:"red";
+ border:1px solid black;
+}
+```
+
+### What are the techniques to optimize React app performance?
+1. **Using useMemo()**
+- sometimes a CPU-Expensive function gets called repeatedly due to re-renders of a component, which can lead to slow rendering
+- useMemo( ) hook can be used to cache such functions by calling them only when needed
+
+2. **Using React.PureComponent**
+- checks the state and props of a component to know whether the component should be updated
+- instead of using the simple React.Component, we can use React.PureComponent to reduce the re-renders of a component unnecessarily
+
+3. **Maintaining State Colocation**
+- process of moving the state as close to where you need it
+- when we have unnecessary states inside the parent component it makes the code less readable and harder to maintain.
+- having many states inside a single component leads to unnecessary re-renders for the component.
+- It is better to shift states which are less valuable to the parent component, to a separate component.
+    
+4. **Lazy Loading**
+- technique to reduce the load time of a React app. Lazy loading helps reduce the risk of web app performances to a minimum
+
+### How to pass data between React components?
+1. Parent —> Child (using props)
+```js
+import Child from "./Child";
+
+const Parent = () => {
+  return (
+    <div>
+      <Child name="Namya" />
+    </div>
+  );
+};
+
+export default Parent;
+```
+```js
+import React from "react";
+
+const Child = (props) => {
+  return <div>Hi my name is {props.name}!</div>;
+};
+
+export default Child;
+```
+2. Child —> Parent (using functions)
+```js
+import React, { useState } from "react";
+import Child from "./Child";
+
+const Parent = () => {
+  const [word, setWord] = useState("Parent");
+  return (
+    <div>
+      <h1>{word}</h1>
+      <Child changeWord={(word) => setWord(word)} />
+    </div>
+  );
+};
+
+export default Parent;
+```
+```js
+import React, { useState } from "react";
+import Child from "./Child";
+
+const Parent = () => {
+  const [word, setWord] = useState("Parent");
+  return (
+    <div>
+      <h1>{word}</h1>
+      <Child changeWord={(word) => setWord(word)} />
+    </div>
+  );
+};
+
+export default Parent;
+```
+
+### What is Conditional rendering?
+- dynamic output of user interface markups based on a condition state
+- works in the same way as JavaScript conditions
+- using conditional rendering, it is possible to toggle specific application functions, API data rendering, hide or show elements, decide permission levels, authentication handling, and so on
+- different approaches: if-else conditional logic, ternary operators
+
+### What is Redux?
+- handling multiple states from multiple components efficiently can become challenging when the application grows in size
+- being a state management library, Redux will basically store and manage all the application's states
+- components dispatch a certain thing known as Actions
+- these Actions reach Reducers, Reducers go to Central Store (which manages all the state of the application)
+- these Central Store once they’re being changed they send a trigger to Subscription
+- subscription then passes the updated states as props to the components
+- Components → Dispatch  Action → Reducer → Central Store → send Trigger to Subscription → passes the updated states as props to the components
+
+### What are Controlled and Uncontrolled Components?
+- in a controlled component, form data is handled by a React component
+- in uncontrolled components, form data is handled by the DOM itself
+
+### What are Pure components?
+If a component renders the same output for the same state and props, then it is considered as Pure component
+
+### What is strict mode?
+- highlight potential problems in an application
+- performs additional checks
+- `<React.StrictMode>` tags need to be added
 
 
