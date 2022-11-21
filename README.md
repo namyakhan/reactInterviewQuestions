@@ -48,7 +48,7 @@ Here I'm listing all the concepts you must know to Ace your React Interviews.
 
 ### Differentiate between Virtual DOM and Real DOM?
 
-| Virtual DOM | Real DOM |
+| Real DOM | Virtual DOM |
 | ------------- | ------------- |
 | It updates slowly | It updates faster  |
 | Can directly update HTML  | Can't directly update HTML  |
